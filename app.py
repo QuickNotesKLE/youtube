@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 import yt_dlp
+import uvicorn
 
 app = FastAPI()
 
@@ -81,3 +82,8 @@ async def give_all(url: str = Query(..., description="YouTube video URL")):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing video: {str(e)}")
+
+
+# 🔥 Run the app directly with hardcoded port
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
