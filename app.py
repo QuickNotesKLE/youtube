@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 # ✅ Hardcoded YouTube API key (replace this with your real API key)
-YOUTUBE_API_KEY = "YOUR_YOUTUBE_API_KEY_HERE"  # ← Replace this!
+YOUTUBE_API_KEY = "AlzaSyB0h3TxEUcmZDvYp91f_ZHKa8nE9Kxd9eA"  # ← Replace this!
 
 @app.get("/")
 def home():
