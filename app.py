@@ -2,7 +2,6 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 import yt_dlp
 import requests
-import uvicorn
 import os
 
 app = FastAPI()
@@ -16,14 +15,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ Get your YouTube API key from environment (set this in Railway)
-YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
-
+# ✅ Hardcoded YouTube API key (replace this with your real API key)
+YOUTUBE_API_KEY = "YOUR_YOUTUBE_API_KEY_HERE"  # ← Replace this!
 
 @app.get("/")
 def home():
     return {"message": "🚀 YouTube Hybrid Metadata API is running"}
-
 
 def extract_video_id(url: str) -> str:
     """Extract YouTube video ID from URL."""
@@ -37,7 +34,6 @@ def extract_video_id(url: str) -> str:
             return match.group(1)
     raise HTTPException(status_code=400, detail="Invalid YouTube URL")
 
-
 @app.get("/giveall")
 async def give_all(url: str = Query(..., description="YouTube video URL")):
     """
@@ -46,7 +42,7 @@ async def give_all(url: str = Query(..., description="YouTube video URL")):
     - Direct stream URL, captions, and chapters via yt-dlp
     """
     if not YOUTUBE_API_KEY:
-        raise HTTPException(status_code=500, detail="Missing YouTube API key in environment")
+        raise HTTPException(status_code=500, detail="Missing YouTube API key")
 
     video_id = extract_video_id(url)
 
@@ -123,6 +119,3 @@ async def give_all(url: str = Query(..., description="YouTube video URL")):
         metadata["yt_dlp_error"] = str(e)
 
     return metadata
-
-
-
